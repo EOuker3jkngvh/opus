@@ -1,0 +1,31 @@
+name: Build Opus DLL
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        choco install nasm -y
+        choco install cmake -y
+        choco install mingw -y
+
+    - name: Configure and Build
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+        mingw32-make
+
+    - name: Upload DLL
+      uses: actions/upload-artifact@v3
+      with:
+        name: opus-dll
+        path: build/**/opus.dll
