@@ -7,7 +7,7 @@ jobs:
     name: Test build with CMake 3.16.0
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download models
@@ -35,7 +35,7 @@ jobs:
     name: CMake MINGW
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Download models
