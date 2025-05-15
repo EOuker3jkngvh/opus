@@ -24,8 +24,18 @@ jobs:
         cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
         mingw32-make
 
-    - name: Upload DLL
+    - name: Upload DLL as Artifact
       uses: actions/upload-artifact@v4
       with:
         name: opus-dll
         path: build/**/opus.dll
+
+    - name: Upload DLL to GitHub Release
+      if: github.event_name == 'push'
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Release ${{ github.sha }}
+        tag_name: build-${{ github.run_number }}
+        files: build/**/opus.dll
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
